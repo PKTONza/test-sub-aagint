@@ -55,6 +55,7 @@
     <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)">
     
     <script src="local-storage-manager.js"></script>
+    <script src="advanced-form.js"></script>
     <script>
         // Collections configuration - loaded from localStorage or predefined
         const collections = [
@@ -324,40 +325,49 @@
         }
         
         function addNewItem() {
-            const name = prompt('ชื่อรายการใหม่:');
-            if (!name) return;
-            
-            const newItem = {
-                name: name,
-                description: 'New item created via Collections Manager'
-            };
-            
-            try {
-                CollectionsManager.createItem(currentCollection.name, newItem);
-                loadCollectionData();
-                updateCollectionStats();
-                showNotification(`เพิ่ม "${name}" สำเร็จ`, 'success');
-            } catch (error) {
-                showNotification('เกิดข้อผิดพลาด: ' + error.message, 'error');
+            if (!currentCollection) {
+                showNotification('กรุณาเลือก collection ก่อน', 'error');
+                return;
             }
+            
+            // Get sample data for form generation
+            const existingData = CollectionsManager.getCollection(currentCollection.name);
+            const sampleData = existingData.length > 0 ? existingData[0] : getDefaultItemStructure(currentCollection.name);
+            
+            showAdvancedForm('Add New Item', sampleData, null, (formData) => {
+                try {
+                    // Generate unique ID if not provided
+                    if (!formData.id) {
+                        formData.id = generateUniqueId(currentCollection.name);
+                    }
+                    
+                    CollectionsManager.createItem(currentCollection.name, formData);
+                    loadCollectionData();
+                    updateCollectionStats();
+                    showNotification(`เพิ่ม "${formData.name}" สำเร็จ`, 'success');
+                } catch (error) {
+                    showNotification('เกิดข้อผิดพลาด: ' + error.message, 'error');
+                }
+            });
         }
         
         function editItem(index) {
             const item = filteredData[index];
             if (!item) return;
             
-            const newName = prompt('แก้ไขชื่อ:', item.name);
-            if (newName === null) return;
-            
-            try {
-                const updatedItem = { ...item, name: newName };
-                CollectionsManager.updateItem(currentCollection.name, item.id, updatedItem);
-                loadCollectionData();
-                updateCollectionStats();
-                showNotification('แก้ไขสำเร็จ', 'success');
-            } catch (error) {
-                showNotification('เกิดข้อผิดพลาด: ' + error.message, 'error');
-            }
+            showAdvancedForm('Edit Item', item, item, (formData) => {
+                try {
+                    // Ensure ID remains the same
+                    formData.id = item.id;
+                    
+                    CollectionsManager.updateItem(currentCollection.name, item.id, formData);
+                    loadCollectionData();
+                    updateCollectionStats();
+                    showNotification(`แก้ไข "${formData.name}" สำเร็จ`, 'success');
+                } catch (error) {
+                    showNotification('เกิดข้อผิดพลาด: ' + error.message, 'error');
+                }
+            });
         }
         
         function deleteItem(index) {
@@ -460,11 +470,201 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
         
+        // Advanced Form Functions
+        function showAdvancedForm(title, sampleData, currentData, onSubmit) {
+            // Create form modal
+            const formModal = document.createElement('div');
+            formModal.className = 'modal form-modal';
+            formModal.id = 'form-modal';
+            
+            const formHTML = AdvancedForm.generateForm(sampleData);
+            
+            formModal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>${title}</h2>
+                        <span class="close" onclick="closeFormModal()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <form id="advanced-form">
+                            ${formHTML}
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    💾 Save
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="closeFormModal()">
+                                    ❌ Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(formModal);
+            
+            // Populate form with current data if editing
+            if (currentData) {
+                populateFormWithData('advanced-form', currentData);
+            }
+            
+            // Show modal
+            formModal.style.display = 'block';
+            
+            // Handle form submission
+            const form = document.getElementById('advanced-form');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = AdvancedForm.extractFormData(form);
+                const errors = AdvancedForm.validateForm(formData);
+                
+                if (Object.keys(errors).length > 0) {
+                    AdvancedForm.showValidationErrors(errors);
+                    return;
+                }
+                
+                // Submit form data
+                onSubmit(formData);
+                closeFormModal();
+            });
+        }
+        
+        function closeFormModal() {
+            const modal = document.getElementById('form-modal');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+        
+        function populateFormWithData(formId, data) {
+            const form = document.getElementById(formId);
+            if (!form || !data) return;
+            
+            // Populate regular inputs
+            Object.keys(data).forEach(key => {
+                const input = form.querySelector(`[name="${key}"]`);
+                if (input) {
+                    if (input.type === 'checkbox') {
+                        input.checked = data[key];
+                    } else {
+                        input.value = data[key];
+                    }
+                }
+                
+                // Handle arrays
+                if (Array.isArray(data[key])) {
+                    const arrayContainer = form.querySelector(`[data-field="${key}"] .form-array-items`);
+                    if (arrayContainer) {
+                        // Clear existing items
+                        arrayContainer.innerHTML = '';
+                        
+                        // Add items from data
+                        data[key].forEach((item, index) => {
+                            const itemDiv = document.createElement('div');
+                            itemDiv.className = 'form-array-item';
+                            itemDiv.innerHTML = `
+                                <input type="text" value="${AdvancedForm.escapeHtml(item)}" class="form-input" placeholder="Item ${index + 1}">
+                                <button type="button" class="btn btn-danger btn-small" onclick="this.parentNode.remove()">✕</button>
+                            `;
+                            arrayContainer.appendChild(itemDiv);
+                        });
+                    }
+                }
+            });
+        }
+        
+        function getDefaultItemStructure(collectionName) {
+            const defaultStructures = {
+                animals: {
+                    id: '',
+                    name: '',
+                    type: 'Predator',
+                    rarity: 'Common',
+                    health: 100,
+                    damage: 10,
+                    location: ['Forest'],
+                    drops: ['Raw Meat'],
+                    behavior: ''
+                },
+                weapons: {
+                    id: 1,
+                    name: '',
+                    type: 'melee',
+                    damage_type: 'physical',
+                    keyword_type: '',
+                    desc_en: '',
+                    desc_th: '',
+                    img: ''
+                },
+                armor: {
+                    id: 1,
+                    name: '',
+                    type: 'chest',
+                    defense: 50,
+                    durability: 100,
+                    weight: 10,
+                    material: 'leather'
+                },
+                food: {
+                    id: 1,
+                    name: '',
+                    type: 'cooked',
+                    nutrition: 50,
+                    effects: ['Health +20'],
+                    preparation: 'cooked',
+                    shelf_life: 7
+                },
+                mods: {
+                    id: 1,
+                    name: '',
+                    type: 'weapon',
+                    effect: '',
+                    requirements: ['Level 10'],
+                    compatibility: ['All Weapons'],
+                    rarity: 'Common'
+                },
+                seasonal_challenges: {
+                    id: 1,
+                    name: '',
+                    description: '',
+                    reward: '',
+                    difficulty: 'Easy',
+                    duration: '7 days',
+                    requirements: ['Complete Tutorial']
+                }
+            };
+            
+            return defaultStructures[collectionName] || { id: 1, name: '', description: '' };
+        }
+        
+        function generateUniqueId(collectionName) {
+            const existingData = CollectionsManager.getCollection(collectionName);
+            const existingIds = existingData.map(item => {
+                const id = item.id;
+                return typeof id === 'number' ? id : (parseInt(id) || 0);
+            });
+            
+            // For animals, generate string ID
+            if (collectionName === 'animals') {
+                const timestamp = Date.now().toString(36);
+                const randomStr = Math.random().toString(36).substr(2, 5);
+                return `${timestamp}_${randomStr}`;
+            }
+            
+            // For others, generate numeric ID
+            return Math.max(0, ...existingIds) + 1;
+        }
+
         // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('collection-modal');
+            const formModal = document.getElementById('form-modal');
+            
             if (event.target === modal) {
                 closeModal();
+            } else if (event.target === formModal) {
+                closeFormModal();
             }
         }
     </script>
