@@ -1,8 +1,48 @@
-# Ignore everything by default
-*
+# Environment files
+.env*
+.env-*
 
-# But don't ignore directories
-!*/
+# Node modules
+node_modules/
+npm-debug.log*
 
-# And don't ignore .cluade files
-!*.cluade
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.tmp
+*.temp
+
+# But keep these files
+!.gitignore
+!*.md
+!*.html
+!*.js
+!*.json
+!*.css
+!*.claude/**
