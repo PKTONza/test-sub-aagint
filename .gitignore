@@ -2,6 +2,9 @@
 .env*
 .env-*
 
+# Claude Code local files
+.claude/
+
 # Node modules
 node_modules/
 npm-debug.log*
