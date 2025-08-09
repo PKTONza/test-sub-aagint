@@ -420,25 +420,69 @@ class AdvancedFormManager {
         return errors;
     }
     
-    // Show validation errors
+    // Show validation errors with enhanced UX
     showValidationErrors(errors) {
         // Clear previous errors
-        document.querySelectorAll('.form-field-error').forEach(el => el.textContent = '');
+        document.querySelectorAll('.form-field-error').forEach(el => {
+            el.textContent = '';
+            el.setAttribute('aria-live', 'polite');
+        });
         document.querySelectorAll('.form-field').forEach(el => el.classList.remove('has-error'));
         
-        // Show new errors
+        // Show new errors with better messaging
         for (const [fieldName, fieldErrors] of Object.entries(errors)) {
             const errorElement = document.getElementById(`field_${fieldName}_error`);
             const fieldElement = document.querySelector(`[data-field="${fieldName}"]`);
+            const inputElement = document.querySelector(`[name="${fieldName}"]`);
             
             if (errorElement) {
-                errorElement.textContent = fieldErrors[0]; // Show first error
+                // Enhanced error messages
+                const userFriendlyError = this.formatErrorMessage(fieldName, fieldErrors[0]);
+                errorElement.textContent = userFriendlyError;
+                errorElement.setAttribute('role', 'alert');
             }
             
             if (fieldElement) {
                 fieldElement.classList.add('has-error');
             }
+            
+            if (inputElement) {
+                inputElement.setAttribute('aria-invalid', 'true');
+                inputElement.setAttribute('aria-describedby', `field_${fieldName}_error`);
+            }
         }
+        
+        // Focus first error field
+        const firstErrorField = document.querySelector('.has-error [name]');
+        if (firstErrorField) {
+            firstErrorField.focus();
+            firstErrorField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+    
+    // Format error messages to be user-friendly
+    formatErrorMessage(fieldName, error) {
+        const fieldLabel = this.formatLabel(fieldName);
+        
+        const errorMap = {
+            'is required': `กรุณากรอก${fieldLabel}`,
+            'Please enter a valid email': 'กรุณากรอกอีเมลที่ถูกต้อง',
+            'Please enter a valid URL': 'กรุณากรอก URL ที่ถูกต้อง',
+            'Please enter a valid number': 'กรุณากรอกตัวเลขที่ถูกต้อง'
+        };
+        
+        // Check for min/max errors
+        if (error.includes('at least')) {
+            const minValue = error.match(/\d+/)?.[0];
+            return `${fieldLabel} ต้องมีค่าอย่างน้อย ${minValue}`;
+        }
+        
+        if (error.includes('at most')) {
+            const maxValue = error.match(/\d+/)?.[0];
+            return `${fieldLabel} ต้องมีค่าไม่เกิน ${maxValue}`;
+        }
+        
+        return errorMap[error] || `${fieldLabel}: ${error}`;
     }
     
     // Utility functions

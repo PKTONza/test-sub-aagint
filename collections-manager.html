@@ -8,9 +8,15 @@
     <link rel="stylesheet" href="collections-styles.css">
 </head>
 <body>
+    <!-- Skip Navigation Link -->
+    <a href="#main-content" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
+    
     <div class="container">
-        <div class="header">
-            <h1>🎮 Game Collections Manager</h1>
+        <div class="header" role="banner">
+            <h1>
+                <span class="sr-only">Game Collections Manager</span>
+                <span aria-hidden="true">🎮</span> Game Collections Manager
+            </h1>
             <p>จัดการข้อมูลเกมทั้งหมดในที่เดียว ด้วย JSONBin.io</p>
         </div>
         
@@ -18,9 +24,11 @@
             <div>🔄 กำลังโหลดข้อมูล Collections...</div>
         </div>
         
-        <div id="collections-container" class="collections-grid" style="display: none;">
-            <!-- Collections will be loaded here -->
-        </div>
+        <main id="main-content" role="main">
+            <div id="collections-container" class="collections-grid" style="display: none;" aria-label="Collections grid">
+                <!-- Collections will be loaded here -->
+            </div>
+        </main>
     </div>
     
     <!-- Collection Management Modal -->
@@ -35,13 +43,27 @@
             
             <div class="collection-actions">
                 <button class="btn btn-success" onclick="addNewItem()">
-                    ➕ เพิ่มรายการใหม่
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    เพิ่มรายการใหม่
                 </button>
                 <button class="btn btn-secondary" onclick="exportCollection()">
-                    📥 Export JSON
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7,10 12,15 17,10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Export JSON
                 </button>
                 <button class="btn btn-secondary" onclick="importCollection()">
-                    📤 Import JSON
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17,8 12,3 7,8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Import JSON
                 </button>
             </div>
             
@@ -242,7 +264,20 @@
             container.innerHTML = '';
             
             if (filteredData.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #718096; padding: 20px;">ไม่มีข้อมูล</p>';
+                const isSearching = document.getElementById('search-items')?.value?.trim();
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">${isSearching ? '🔍' : '📝'}</div>
+                        <h3>${isSearching ? 'ไม่พบข้อมูลที่ค้นหา' : 'ยังไม่มีข้อมูลใน Collection นี้'}</h3>
+                        <p>${isSearching ? 'ลองใช้คำค้นหาอื่น หรือเคลียร์การค้นหาเพื่อดูข้อมูลทั้งหมด' : 'เริ่มต้นโดยการเพิ่มรายการแรกของคุณ'}</p>
+                        <div class="empty-state-actions">
+                            ${isSearching ? 
+                                '<button class="btn btn-secondary" onclick="clearSearch()">🔄 เคลียร์การค้นหา</button>' : 
+                                '<button class="btn btn-primary" onclick="addNewItem()">➕ เพิ่มรายการแรก</button>'
+                            }
+                        </div>
+                    </div>
+                `;
                 return;
             }
             
@@ -291,11 +326,34 @@
             }).join('<br>');
         }
         
-        // Search functionality
+        // Enhanced Search functionality with debouncing
         document.addEventListener('DOMContentLoaded', function() {
             const searchBox = document.getElementById('search-items');
             if (searchBox) {
-                searchBox.addEventListener('input', filterItems);
+                let searchTimeout;
+                searchBox.addEventListener('input', function(e) {
+                    clearTimeout(searchTimeout);
+                    
+                    // Show loading state
+                    const itemsContainer = document.getElementById('collection-items');
+                    if (e.target.value.trim()) {
+                        itemsContainer.classList.add('loading');
+                    }
+                    
+                    // Debounced search after 300ms
+                    searchTimeout = setTimeout(() => {
+                        filterItems();
+                        itemsContainer.classList.remove('loading');
+                    }, 300);
+                });
+                
+                // Clear search on escape
+                searchBox.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') {
+                        e.target.value = '';
+                        filterItems();
+                    }
+                });
             }
         });
         
@@ -315,6 +373,15 @@
             }
             
             renderItems();
+        }
+        
+        function clearSearch() {
+            const searchBox = document.getElementById('search-items');
+            if (searchBox) {
+                searchBox.value = '';
+                filterItems();
+                searchBox.focus();
+            }
         }
         
         function closeModal() {
@@ -656,7 +723,7 @@
             return Math.max(0, ...existingIds) + 1;
         }
 
-        // Close modal when clicking outside
+        // Enhanced modal handling with keyboard shortcuts
         window.onclick = function(event) {
             const modal = document.getElementById('collection-modal');
             const formModal = document.getElementById('form-modal');
@@ -666,6 +733,60 @@
             } else if (event.target === formModal) {
                 closeFormModal();
             }
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            // ESC key - close modals or clear search
+            if (event.key === 'Escape') {
+                const formModal = document.getElementById('form-modal');
+                const collectionModal = document.getElementById('collection-modal');
+                
+                if (formModal && formModal.style.display === 'block') {
+                    closeFormModal();
+                } else if (collectionModal && collectionModal.style.display === 'block') {
+                    closeModal();
+                } else {
+                    // Clear search if modals are closed
+                    const searchBox = document.getElementById('search-items');
+                    if (searchBox) {
+                        searchBox.value = '';
+                        filterItems();
+                        searchBox.focus();
+                    }
+                }
+                event.preventDefault();
+            }
+            
+            // Ctrl+K - Focus search (like GitHub)
+            if (event.ctrlKey && event.key === 'k') {
+                const searchBox = document.getElementById('search-items');
+                if (searchBox) {
+                    searchBox.focus();
+                    searchBox.select();
+                    event.preventDefault();
+                }
+            }
+        });
+        
+        // Enhanced accessibility - focus management
+        function focusFirstFormElement() {
+            const form = document.getElementById('advanced-form');
+            if (form) {
+                const firstInput = form.querySelector('input, select, textarea');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }
+        }
+        
+        // Add focus management to form modal
+        const originalShowAdvancedForm = showAdvancedForm;
+        showAdvancedForm = function(title, sampleData, currentData, onSubmit) {
+            originalShowAdvancedForm(title, sampleData, currentData, onSubmit);
+            
+            // Focus first form element after modal appears
+            setTimeout(focusFirstFormElement, 100);
         }
     </script>
 </body>
