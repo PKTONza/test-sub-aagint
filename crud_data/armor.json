@@ -1,0 +1,124 @@
+{
+  "armor": [
+    {
+      "id": 1,
+      "name": "Blackstone Helmet",
+      "gearset": "Blackstone",
+      "geartype": "Helmet",
+      "type": "heavy",
+      "damage_type": "elemental",
+      "keyword_type": "Thermal, Elemental",
+      "desc_en": "Set Effect 1: Cold and Heat Resist +2.5. Set Effect 2: Upon dealing Elemental DMG, gain 1 stack(s) of Warm Sensation (Elemental DMG +2%) for 2s.",
+      "desc_th": "เซตเอฟเฟกต์ 1: ความต้านทานร้อนและหนาว +2.5",
+      "img": "https://img.game8.co/4021358/b6a577647304ebfaa962c0cb32811b1a.png/show"
+    },
+    {
+      "id": 2,
+      "name": "Combat Helmet",
+      "gearset": "Military",
+      "geartype": "Helmet",
+      "type": "medium",
+      "damage_type": "physical",
+      "keyword_type": "Protection, Durability",
+      "desc_en": "Standard military helmet providing excellent physical protection.",
+      "desc_th": "หมวกทหารมาตรฐานที่ให้การป้องกันทางกายภาพที่ดีเยี่ยม",
+      "img": "https://example.com/combat_helmet.png"
+    },
+    {
+      "id": 3,
+      "name": "Gas Mask",
+      "gearset": "Chemical",
+      "geartype": "Mask",
+      "type": "special",
+      "damage_type": "environmental",
+      "keyword_type": "Chemical, Protection",
+      "desc_en": "Protects against toxic gases and chemical attacks.",
+      "desc_th": "ป้องกันก๊าซพิษและการโจมตีด้วยสารเคมี",
+      "img": "https://example.com/gas_mask.png"
+    },
+    {
+      "id": 4,
+      "name": "Tactical Vest",
+      "gearset": "Military",
+      "geartype": "Top",
+      "type": "medium",
+      "damage_type": "physical",
+      "keyword_type": "Protection, Storage",
+      "desc_en": "Military-grade chest armor with multiple pouches for equipment.",
+      "desc_th": "เสื้อเกราะทหารพร้อมกระเป๋าสำหรับอุปกรณ์",
+      "img": "https://example.com/tactical_vest.png"
+    },
+    {
+      "id": 5,
+      "name": "Combat Pants",
+      "gearset": "Military",
+      "geartype": "Bottom",
+      "type": "medium",
+      "damage_type": "physical",
+      "keyword_type": "Mobility, Protection",
+      "desc_en": "Durable combat pants with reinforced knees and multiple pockets.",
+      "desc_th": "กางเกงรบทนทานพร้อมเสริมแรงที่เข่าและกระเป๋าหลายช่อง",
+      "img": "https://example.com/combat_pants.png"
+    },
+    {
+      "id": 6,
+      "name": "Tactical Gloves",
+      "gearset": "Military",
+      "geartype": "Gloves",
+      "type": "light",
+      "damage_type": "physical",
+      "keyword_type": "Grip, Dexterity",
+      "desc_en": "Lightweight tactical gloves providing enhanced grip and dexterity.",
+      "desc_th": "ถุงมือยุทธวิธีน้ำหนักเบาเพิ่มการจับกุมและความว่องไว",
+      "img": "https://example.com/tactical_gloves.png"
+    },
+    {
+      "id": 7,
+      "name": "Combat Boots",
+      "gearset": "Military",
+      "geartype": "Shoes",
+      "type": "heavy",
+      "damage_type": "physical",
+      "keyword_type": "Durability, Traction",
+      "desc_en": "Heavy-duty combat boots with excellent traction and ankle support.",
+      "desc_th": "รองเท้าบู๊ตหนักพร้อมการจับกิ่งดีเยี่ยมและรองรับข้อเท้า",
+      "img": "https://example.com/combat_boots.png"
+    },
+    {
+      "id": 8,
+      "name": "Stealth Mask",
+      "gearset": "Shadow",
+      "geartype": "Mask",
+      "type": "light",
+      "damage_type": "stealth",
+      "keyword_type": "Stealth, Night Vision",
+      "desc_en": "Advanced mask with built-in night vision and sound dampening.",
+      "desc_th": "หน้ากากขั้นสูงพร้อมอุปกรณ์มองในที่มืดและลดเสียง",
+      "img": "https://example.com/stealth_mask.png"
+    },
+    {
+      "id": 9,
+      "name": "Reinforced Vest",
+      "gearset": "Tank",
+      "geartype": "Top",
+      "type": "heavy",
+      "damage_type": "physical",
+      "keyword_type": "Heavy Armor, Blast Protection",
+      "desc_en": "Heavily armored vest providing maximum protection against explosions.",
+      "desc_th": "เสื้อเกราะหนักให้การป้องกันสูงสุดจากการระเบิด",
+      "img": "https://example.com/reinforced_vest.png"
+    },
+    {
+      "id": 10,
+      "name": "Stealth Pants",
+      "gearset": "Shadow",
+      "geartype": "Bottom",
+      "type": "light",
+      "damage_type": "stealth",
+      "keyword_type": "Stealth, Mobility",
+      "desc_en": "Lightweight pants designed for silent movement and agility.",
+      "desc_th": "กางเกงน้ำหนักเบาออกแบบสำหรับการเคลื่อนไหวเงียบและว่องไว",
+      "img": "https://example.com/stealth_pants.png"
+    }
+  ]
+}

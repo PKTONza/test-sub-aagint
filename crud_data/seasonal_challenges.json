@@ -1,0 +1,64 @@
+{
+  "seasonal_challenges": [
+    {
+      "id": "challenge_001",
+      "mission_en": "Defeat 10 mutant wolves in the forest biome.",
+      "mission_th": "กำจัดหมาป่ากลายพันธุ์ 10 ตัวในพื้นที่ป่า",
+      "category": "Combat"
+    },
+    {
+      "id": "challenge_002",
+      "mission_en": "Collect 5 rare mushrooms from the swamp.",
+      "mission_th": "เก็บเห็ดหายาก 5 ดอกจากบึง",
+      "category": "Collection"
+    },
+    {
+      "id": "challenge_003",
+      "mission_en": "Complete a raid on the abandoned factory.",
+      "mission_th": "บุกโจมตีโรงงานร้างให้สำเร็จ",
+      "category": "Exploration"
+    },
+    {
+      "id": "challenge_004",
+      "mission_en": "Craft a legendary weapon using found materials.",
+      "mission_th": "สร้างอาวุธระดับตำนานจากวัสดุที่หาได้",
+      "category": "Crafting"
+    },
+    {
+      "id": "challenge_005",
+      "mission_en": "Survive 3 nights without using food items.",
+      "mission_th": "อยู่รอด 3 คืนโดยไม่ใช้อาหาร",
+      "category": "Survival"
+    },
+    {
+      "id": "challenge_006",
+      "mission_en": "Build and upgrade your base to level 5.",
+      "mission_th": "สร้างและอัพเกรดฐานของคุณให้ถึงเลเวล 5",
+      "category": "Building"
+    },
+    {
+      "id": "challenge_007",
+      "mission_en": "Tame 3 different types of wild animals.",
+      "mission_th": "จับสัตว์ป่า 3 ชนิดที่แตกต่างกันมาเลี้ยง",
+      "category": "Taming"
+    },
+    {
+      "id": "challenge_008",
+      "mission_en": "Complete 5 delivery quests in different territories.",
+      "mission_th": "ทำเควสส่งของ 5 เควสในดินแดนที่แตกต่างกัน",
+      "category": "Quest"
+    },
+    {
+      "id": "challenge_009",
+      "mission_en": "Harvest 100 units of energy crystals from mines.",
+      "mission_th": "เก็บเกี่ยวคริสตัลพลังงาน 100 หน่วยจากเหมือง",
+      "category": "Mining"
+    },
+    {
+      "id": "challenge_010",
+      "mission_en": "Win 5 PvP battles in the wasteland arena.",
+      "mission_th": "ชนะการต่อสู้ PvP 5 ครั้งในสนามต่อสู้แห่งดินแดนร้าง",
+      "category": "PvP"
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+{
+  "food": [
+    {
+      "id": "canned_beans",
+      "name": "Canned Beans",
+      "type": "Canned Food",
+      "rarity": "Common",
+      "hunger_restore": 25,
+      "health_restore": 0,
+      "effects": [],
+      "spoilage_time": "Never",
+      "ingredients": []
+    },
+    {
+      "id": "energy_bar",
+      "name": "Energy Bar",
+      "type": "Processed Food",
+      "rarity": "Common",
+      "hunger_restore": 15,
+      "health_restore": 0,
+      "effects": ["+5 Stamina for 10 minutes"],
+      "spoilage_time": "7 days",
+      "ingredients": []
+    },
+    {
+      "id": "mre",
+      "name": "MRE (Meal Ready to Eat)",
+      "type": "Military Ration",
+      "rarity": "Uncommon",
+      "hunger_restore": 40,
+      "health_restore": 10,
+      "effects": ["+10% Health Regen for 30 minutes"],
+      "spoilage_time": "Never",
+      "ingredients": []
+    },
+    {
+      "id": "cooked_meat",
+      "name": "Cooked Meat",
+      "type": "Cooked Food",
+      "rarity": "Common",
+      "hunger_restore": 30,
+      "health_restore": 5,
+      "effects": [],
+      "spoilage_time": "2 days",
+      "ingredients": ["Raw Meat", "Fire"]
+    },
+    {
+      "id": "grilled_fish",
+      "name": "Grilled Fish",
+      "type": "Cooked Food",
+      "rarity": "Common",
+      "hunger_restore": 28,
+      "health_restore": 8,
+      "effects": ["+5% Movement Speed for 15 minutes"],
+      "spoilage_time": "1 day",
+      "ingredients": ["Fresh Fish", "Fire"]
+    },
+    {
+      "id": "vegetable_soup",
+      "name": "Vegetable Soup",
+      "type": "Cooked Food",
+      "rarity": "Common",
+      "hunger_restore": 35,
+      "health_restore": 15,
+      "effects": ["+15% Health Regen for 20 minutes"],
+      "spoilage_time": "3 days",
+      "ingredients": ["Vegetables", "Water", "Fire", "Cooking Pot"]
+    },
+    {
+      "id": "protein_shake",
+      "name": "Protein Shake",
+      "type": "Beverage",
+      "rarity": "Uncommon",
+      "hunger_restore": 10,
+      "health_restore": 0,
+      "effects": ["+20% Stamina Regen for 1 hour"],
+      "spoilage_time": "3 days",
+      "ingredients": ["Protein Powder", "Water"]
+    },
+    {
+      "id": "purified_water",
+      "name": "Purified Water",
+      "type": "Beverage",
+      "rarity": "Common",
+      "hunger_restore": 0,
+      "health_restore": 5,
+      "effects": ["Removes radiation (small amount)"],
+      "spoilage_time": "Never",
+      "ingredients": ["Dirty Water", "Water Purification Tablet"]
+    },
+    {
+      "id": "energy_drink",
+      "name": "Energy Drink",
+      "type": "Beverage",
+      "rarity": "Uncommon",
+      "hunger_restore": 5,
+      "health_restore": 0,
+      "effects": ["+15% Movement Speed, +10% Attack Speed for 30 minutes"],
+      "spoilage_time": "30 days",
+      "ingredients": []
+    },
+    {
+      "id": "first_aid_ration",
+      "name": "First Aid Ration",
+      "type": "Medical Food",
+      "rarity": "Rare",
+      "hunger_restore": 20,
+      "health_restore": 25,
+      "effects": ["+25% Health Regen for 1 hour", "Immunity to poison for 30 minutes"],
+      "spoilage_time": "Never",
+      "ingredients": []
+    },
+    {
+      "id": "mystery_meat",
+      "name": "Mystery Meat",
+      "type": "Questionable Food",
+      "rarity": "Common",
+      "hunger_restore": 35,
+      "health_restore": -5,
+      "effects": ["Random effect (could be positive or negative)"],
+      "spoilage_time": "1 day",
+      "ingredients": ["Unknown Meat Source", "Fire"]
+    },
+    {
+      "id": "radiation_pills",
+      "name": "Radiation Pills",
+      "type": "Medical Supplement",
+      "rarity": "Uncommon",
+      "hunger_restore": 0,
+      "health_restore": 0,
+      "effects": ["Removes all radiation", "Immunity to radiation for 2 hours"],
+      "spoilage_time": "Never",
+      "ingredients": []
+    },
+    {
+      "id": "stamina_stew",
+      "name": "Stamina Stew",
+      "type": "Cooked Food",
+      "rarity": "Uncommon",
+      "hunger_restore": 45,
+      "health_restore": 10,
+      "effects": ["+30% Stamina capacity for 2 hours"],
+      "spoilage_time": "2 days",
+      "ingredients": ["Cooked Meat", "Vegetables", "Special Herbs", "Cooking Pot"]
+    },
+    {
+      "id": "survival_chocolate",
+      "name": "Survival Chocolate",
+      "type": "Emergency Food",
+      "rarity": "Rare",
+      "hunger_restore": 20,
+      "health_restore": 0,
+      "effects": ["+20% Cold Resistance for 1 hour", "Morale boost"],
+      "spoilage_time": "Never",
+      "ingredients": []
+    },
+    {
+      "id": "fresh_fruit",
+      "name": "Fresh Fruit",
+      "type": "Natural Food",
+      "rarity": "Common",
+      "hunger_restore": 15,
+      "health_restore": 8,
+      "effects": ["+5% Health Regen for 15 minutes"],
+      "spoilage_time": "3 days",
+      "ingredients": []
+    },
+    {
+      "id": "mushroom_soup",
+      "name": "Mushroom Soup",
+      "type": "Cooked Food",
+      "rarity": "Uncommon",
+      "hunger_restore": 30,
+      "health_restore": 12,
+      "effects": ["Enhanced night vision for 1 hour"],
+      "spoilage_time": "2 days",
+      "ingredients": ["Wild Mushrooms", "Water", "Cooking Pot"]
+    },
+    {
+      "id": "combat_ration",
+      "name": "Combat Ration",
+      "type": "Military Food",
+      "rarity": "Rare",
+      "hunger_restore": 50,
+      "health_restore": 15,
+      "effects": ["+10% Damage for 1 hour", "+15% Accuracy for 1 hour"],
+      "spoilage_time": "Never",
+      "ingredients": []
+    },
+    {
+      "id": "herbal_tea",
+      "name": "Herbal Tea",
+      "type": "Beverage",
+      "rarity": "Common",
+      "hunger_restore": 5,
+      "health_restore": 10,
+      "effects": ["Calming effect", "+10% Health Regen for 30 minutes"],
+      "spoilage_time": "1 day",
+      "ingredients": ["Healing Herbs", "Clean Water", "Fire"]
+    },
+    {
+      "id": "nutrition_paste",
+      "name": "Nutrition Paste",
+      "type": "Processed Food",
+      "rarity": "Uncommon",
+      "hunger_restore": 40,
+      "health_restore": 5,
+      "effects": ["Meets all nutritional needs"],
+      "spoilage_time": "Never",
+      "ingredients": []
+    },
+    {
+      "id": "fermented_drink",
+      "name": "Fermented Drink",
+      "type": "Alcoholic Beverage",
+      "rarity": "Uncommon",
+      "hunger_restore": 8,
+      "health_restore": -2,
+      "effects": ["+15% Confidence", "-10% Accuracy", "Pain resistance"],
+      "spoilage_time": "30 days",
+      "ingredients": ["Fruit", "Yeast", "Time"]
+    }
+  ]
+}

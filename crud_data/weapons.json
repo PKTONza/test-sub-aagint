@@ -1,0 +1,54 @@
+{
+  "weapons": [
+    {
+      "id": 1,
+      "name": "AWS.338 - Bullseye",
+      "type": "sniper",
+      "damage_type": "physical",
+      "keyword_type": "Bulleye, WeakspotsDMG",
+      "desc_en": "1        70% chance to trigger The Bull's Eye with a weakspot hit.\n2        After switching weapon, the first hit will trigger The Bull's Eye.\n3        With a hit, Weakspot DMG +15% for 10s. Effect can st ack up to 3 times.\n4        After defeating an enemy with a weakspot hit, Attack +15% for 20s.",
+      "desc_th": "1        70% chance to trigger The Bull's Eye with a weakspot hit.\n2        After switching weapon, the first hit will trigger The Bull's Eye.\n3        With a hit, Weakspot DMG +15% for 10s. Effect can st ack up to 3 times.\n4        After defeating an enemy with a weakspot hit, Attack +15% for 20s.",
+      "img": "https://img.game8.co/3948998/865715f036f5ef41aabd5881d55ba8df.png/show"
+    },
+    {
+      "id": 2,
+      "name": "M4A1 Assault Rifle",
+      "type": "assault",
+      "damage_type": "physical",
+      "keyword_type": "Assault, FullAuto",
+      "desc_en": "Standard assault rifle with reliable damage and moderate recoil. Effective at medium range engagements.",
+      "desc_th": "ปืนไรเฟิลโจมตีมาตรฐานที่มีความเสียหายที่เชื่อถือได้และแรงสะท้อนปานกลาง มีประสิทธิภาพในการต่อสู้ระยะกลาง",
+      "img": "https://example.com/m4a1.png"
+    },
+    {
+      "id": 3,
+      "name": "Plasma Cannon",
+      "type": "heavy",
+      "damage_type": "energy",
+      "keyword_type": "Energy, Explosive",
+      "desc_en": "High-tech energy weapon that fires devastating plasma bolts. Extremely effective against armored targets.",
+      "desc_th": "อาวุธพลังงานไฮเทคที่ยิงลูกกระสุนพลาสม่าทำลายล้าง มีประสิทธิภาพสูงมากต่อเป้าหมายที่มีเกราะ",
+      "img": "https://example.com/plasma.png"
+    },
+    {
+      "id": 4,
+      "name": "Frost SMG",
+      "type": "smg",
+      "damage_type": "elemental",
+      "keyword_type": "Ice, Rapid",
+      "desc_en": "Compact submachine gun that fires ice-enhanced rounds. Slows enemies and deals continuous frost damage.",
+      "desc_th": "ปืนกลมือขนาดกะทัดรัดที่ยิงกระสุนเสริมน้ำแข็ง ทำให้ศत्रूช้าลงและสร้างความเสียหายน้ำแข็งอย่างต่อเนื่อง",
+      "img": "https://example.com/frost_smg.png"
+    },
+    {
+      "id": 5,
+      "name": "Thunder Shotgun",
+      "type": "shotgun",
+      "damage_type": "elemental",
+      "keyword_type": "Lightning, Spread",
+      "desc_en": "Electrified shotgun that unleashes lightning damage in a wide spread. Perfect for close-range combat.",
+      "desc_th": "ปืนลูกซองไฟฟ้าที่ปลดปล่อยความเสียหายฟ้าผ่าในการกระจายแบบกว้าง เหมาะสำหรับการต่อสู้ระยะใกล้",
+      "img": "https://example.com/thunder_shotgun.png"
+    }
+  ]
+}

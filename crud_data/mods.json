@@ -1,0 +1,24 @@
+{
+  "weapon_mods": [
+    {
+      "id": 2,
+      "mod_name": "Bounce Rampage",
+      "mod_des_en": "Bounce deals more DMG as more targets are hit, up to DMG +45%",
+      "mod_des_th": "Bounce deals more DMG as more targets are hit, up to DMG +45%",
+      "mod_for": "Weapon",
+      "contents": "High Risk event",
+      "img": "https://img.game8.co/3946216/708b60c59c13bd61737b8db34022e697.png/show"
+    }
+  ],
+  "armor_mods": [
+    {
+      "id": 1,
+      "mod_name": "Blaze Amplifier",
+      "mod_des_en": "Every stack of Burn grants +3% Psi Intensity DMG.",
+      "mod_des_th": "Every stack of Burn grants +3% Psi Intensity DMG.",
+      "mod_for": "Masks",
+      "contents": "all",
+      "img": "https://img.game8.co/3951384/b7fc4441f6c725176b3a6c28cef83d37.png/show"
+    }
+  ]
+}

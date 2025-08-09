@@ -1,0 +1,114 @@
+{
+  "animals": [
+    {
+      "id": "wolf",
+      "name": "Wolf",
+      "type": "Predator",
+      "rarity": "Common",
+      "health": 120,
+      "damage": 25,
+      "location": ["Forest", "Mountains"],
+      "drops": ["Wolf Pelt", "Raw Meat", "Wolf Tooth"],
+      "behavior": "Aggressive, hunts in packs"
+    },
+    {
+      "id": "bear",
+      "name": "Bear",
+      "type": "Predator", 
+      "rarity": "Uncommon",
+      "health": 300,
+      "damage": 45,
+      "location": ["Forest", "Mountains", "Cave"],
+      "drops": ["Bear Pelt", "Raw Meat", "Bear Claw"],
+      "behavior": "Territorial, very aggressive when provoked"
+    },
+    {
+      "id": "deer",
+      "name": "Deer",
+      "type": "Herbivore",
+      "rarity": "Common",
+      "health": 80,
+      "damage": 5,
+      "location": ["Forest", "Plains"],
+      "drops": ["Deer Hide", "Venison", "Antler"],
+      "behavior": "Peaceful, flees when threatened"
+    },
+    {
+      "id": "rabbit",
+      "name": "Rabbit",
+      "type": "Small Game",
+      "rarity": "Common",
+      "health": 20,
+      "damage": 0,
+      "location": ["Forest", "Plains", "Scrubland"],
+      "drops": ["Rabbit Pelt", "Raw Meat"],
+      "behavior": "Very skittish, fast runner"
+    },
+    {
+      "id": "boar",
+      "name": "Wild Boar",
+      "type": "Omnivore",
+      "rarity": "Common",
+      "health": 150,
+      "damage": 30,
+      "location": ["Forest", "Swamp"],
+      "drops": ["Boar Hide", "Raw Meat", "Boar Tusk"],
+      "behavior": "Aggressive when cornered"
+    },
+    {
+      "id": "eagle",
+      "name": "Eagle",
+      "type": "Bird of Prey",
+      "rarity": "Uncommon",
+      "health": 60,
+      "damage": 15,
+      "location": ["Mountains", "Cliffs"],
+      "drops": ["Eagle Feather", "Raw Meat", "Eagle Talon"],
+      "behavior": "Aerial attacks, difficult to hit"
+    },
+    {
+      "id": "snake",
+      "name": "Venomous Snake",
+      "type": "Reptile",
+      "rarity": "Uncommon",
+      "health": 40,
+      "damage": 20,
+      "location": ["Desert", "Swamp", "Cave"],
+      "drops": ["Snake Skin", "Venom Sac"],
+      "behavior": "Poisonous bite, ambush predator"
+    },
+    {
+      "id": "mutant_dog",
+      "name": "Mutant Dog",
+      "type": "Mutant",
+      "rarity": "Rare",
+      "health": 180,
+      "damage": 35,
+      "location": ["Wasteland", "Abandoned City"],
+      "drops": ["Mutant Hide", "Radioactive Meat", "Strange Bone"],
+      "behavior": "Highly aggressive, radiation resistant"
+    },
+    {
+      "id": "giant_spider",
+      "name": "Giant Spider",
+      "type": "Mutant",
+      "rarity": "Rare",
+      "health": 100,
+      "damage": 28,
+      "location": ["Cave", "Abandoned Building", "Sewer"],
+      "drops": ["Spider Silk", "Poison Gland", "Chitin"],
+      "behavior": "Web traps, venomous bite"
+    },
+    {
+      "id": "rad_chicken",
+      "name": "Radiated Chicken",
+      "type": "Mutant",
+      "rarity": "Uncommon",
+      "health": 50,
+      "damage": 8,
+      "location": ["Wasteland", "Abandoned Farm"],
+      "drops": ["Mutant Egg", "Radioactive Meat", "Feathers"],
+      "behavior": "Territorial, glows in the dark"
+    }
+  ]
+}

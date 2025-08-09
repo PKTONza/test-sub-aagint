@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections Manager - JSONBin.io</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .collection-card {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .collection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+        
+        .collection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .collection-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .collection-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+        }
+        
+        .collection-info h3 {
+            color: #2d3748;
+            font-size: 1.4em;
+            margin-bottom: 5px;
+        }
+        
+        .collection-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9em;
+            color: #718096;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .collection-description {
+            color: #4a5568;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .collection-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5a67d8;
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+        
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+        
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #38a169;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 1.2em;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        
+        .close {
+            font-size: 2em;
+            cursor: pointer;
+            color: #a0aec0;
+            line-height: 1;
+        }
+        
+        .close:hover {
+            color: #718096;
+        }
+        
+        .collection-items {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .item-card {
+            background: #f7fafc;
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+        
+        .item-name {
+            font-weight: bold;
+            color: #2d3748;
+            font-size: 1.1em;
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .btn-small {
+            padding: 5px 10px;
+            font-size: 0.8em;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: #48bb78;
+        }
+        
+        .notification.error {
+            background: #f56565;
+        }
+        
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+        
+        .search-box:focus {
+            border-color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .collections-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .collection-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Game Collections Manager</h1>
+            <p>จัดการข้อมูลเกมทั้งหมดในที่เดียว ด้วย JSONBin.io</p>
+        </div>
+        
+        <div id="loading" class="loading">
+            <div>🔄 กำลังโหลดข้อมูล Collections...</div>
+        </div>
+        
+        <div id="collections-container" class="collections-grid" style="display: none;">
+            <!-- Collections will be loaded here -->
+        </div>
+    </div>
+    
+    <!-- Collection Management Modal -->
+    <div id="collection-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Collection</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            
+            <input type="text" id="search-items" class="search-box" placeholder="🔍 ค้นหารายการ...">
+            
+            <div class="collection-actions">
+                <button class="btn btn-success" onclick="addNewItem()">
+                    ➕ เพิ่มรายการใหม่
+                </button>
+                <button class="btn btn-secondary" onclick="exportCollection()">
+                    📥 Export JSON
+                </button>
+                <button class="btn btn-secondary" onclick="importCollection()">
+                    📤 Import JSON
+                </button>
+            </div>
+            
+            <div id="collection-items" class="collection-items">
+                <!-- Items will be loaded here -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hidden file input for import -->
+    <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)">
+    
+    <script src="local-storage-manager.js"></script>
+    <script>
+        // Collections configuration - loaded from localStorage or predefined
+        const collections = [
+            {
+                name: 'animals',
+                displayName: 'Animals',
+                icon: '🐺',
+                description: 'Game animals with stats and drops',
+                binId: 'YOUR_ANIMALS_BIN_ID', // Will be updated after upload
+                fields: ['name', 'type', 'health', 'damage', 'location']
+            },
+            {
+                name: 'weapons',
+                displayName: 'Weapons', 
+                icon: '⚔️',
+                description: 'Weapon stats and abilities',
+                binId: 'YOUR_WEAPONS_BIN_ID',
+                fields: ['name', 'type', 'damage_type', 'desc_en']
+            },
+            {
+                name: 'armor',
+                displayName: 'Armor',
+                icon: '🛡️', 
+                description: 'Armor pieces and defense stats',
+                binId: 'YOUR_ARMOR_BIN_ID',
+                fields: ['name', 'type', 'defense', 'durability']
+            },
+            {
+                name: 'food',
+                displayName: 'Food',
+                icon: '🍖',
+                description: 'Food items and nutritional values', 
+                binId: 'YOUR_FOOD_BIN_ID',
+                fields: ['name', 'type', 'nutrition', 'effects']
+            },
+            {
+                name: 'mods',
+                displayName: 'Modifications',
+                icon: '🔧',
+                description: 'Equipment modifications and upgrades',
+                binId: 'YOUR_MODS_BIN_ID',
+                fields: ['name', 'type', 'effect', 'requirements']
+            },
+            {
+                name: 'seasonal_challenges',
+                displayName: 'Seasonal Challenges',
+                icon: '🎯',
+                description: 'Time-limited challenges and rewards',
+                binId: 'YOUR_CHALLENGES_BIN_ID', 
+                fields: ['name', 'description', 'reward', 'difficulty']
+            }
+        ];
+        
+        let currentCollection = null;
+        let currentData = [];
+        let filteredData = [];
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCollections();
+        });
+        
+        async function loadCollections() {
+            try {
+                // Simulate loading time
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Load sample data for demonstration
+                await loadSampleData();
+                
+                renderCollections();
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('collections-container').style.display = 'grid';
+                
+            } catch (error) {
+                console.error('Error loading collections:', error);
+                showNotification('Error loading collections: ' + error.message, 'error');
+            }
+        }
+        
+        async function loadSampleData() {
+            // Use CollectionsManager to load data
+            await new Promise(resolve => {
+                // Wait for CollectionsManager to initialize
+                const checkInitialized = () => {
+                    if (window.CollectionsManager) {
+                        resolve();
+                    } else {
+                        setTimeout(checkInitialized, 100);
+                    }
+                };
+                checkInitialized();
+            });
+            
+            // Update collections with data from CollectionsManager
+            collections.forEach(collection => {
+                const stats = CollectionsManager.getCollectionStats(collection.name);
+                collection.data = CollectionsManager.getCollection(collection.name);
+                collection.count = stats.count;
+                collection.size = stats.size;
+            });
+        }
+        
+        function renderCollections() {
+            const container = document.getElementById('collections-container');
+            container.innerHTML = '';
+            
+            collections.forEach(collection => {
+                const card = createCollectionCard(collection);
+                container.appendChild(card);
+            });
+        }
+        
+        function createCollectionCard(collection) {
+            const card = document.createElement('div');
+            card.className = 'collection-card';
+            
+            card.innerHTML = `
+                <div class="collection-header">
+                    <div class="collection-icon">${collection.icon}</div>
+                    <div class="collection-info">
+                        <h3>${collection.displayName}</h3>
+                        <div class="collection-stats">
+                            <div class="stat">
+                                <span>📊</span>
+                                <span>${collection.count || 0} items</span>
+                            </div>
+                            <div class="stat">
+                                <span>💾</span>
+                                <span>${formatBytes(collection.size || 0)}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="collection-description">
+                    ${collection.description}
+                </div>
+                
+                <div class="collection-actions">
+                    <button class="btn btn-primary" onclick="openCollection('${collection.name}')">
+                        📝 จัดการ
+                    </button>
+                    <button class="btn btn-secondary" onclick="viewCollection('${collection.name}')">
+                        👁️ ดู
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportCollection('${collection.name}')">
+                        📥 Export
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+        
+        function openCollection(collectionName) {
+            currentCollection = collections.find(c => c.name === collectionName);
+            if (!currentCollection) return;
+            
+            document.getElementById('modal-title').textContent = 
+                `${currentCollection.icon} ${currentCollection.displayName}`;
+            
+            loadCollectionData();
+            document.getElementById('collection-modal').style.display = 'block';
+        }
+        
+        function loadCollectionData() {
+            if (!currentCollection) {
+                currentData = [];
+                filteredData = [];
+                renderItems();
+                return;
+            }
+            
+            // Load data from CollectionsManager
+            currentData = CollectionsManager.getCollection(currentCollection.name);
+            filteredData = [...currentData];
+            renderItems();
+        }
+        
+        function renderItems() {
+            const container = document.getElementById('collection-items');
+            container.innerHTML = '';
+            
+            if (filteredData.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #718096; padding: 20px;">ไม่มีข้อมูล</p>';
+                return;
+            }
+            
+            filteredData.forEach((item, index) => {
+                const itemCard = createItemCard(item, index);
+                container.appendChild(itemCard);
+            });
+        }
+        
+        function createItemCard(item, index) {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            
+            const name = item.name || item.id || `Item ${index + 1}`;
+            const preview = generateItemPreview(item);
+            
+            card.innerHTML = `
+                <div class="item-header">
+                    <div class="item-name">${name}</div>
+                    <div class="item-actions">
+                        <button class="btn btn-primary btn-small" onclick="editItem(${index})">
+                            ✏️ แก้ไข
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="deleteItem(${index})">
+                            🗑️ ลบ
+                        </button>
+                    </div>
+                </div>
+                <div class="item-preview">${preview}</div>
+            `;
+            
+            return card;
+        }
+        
+        function generateItemPreview(item) {
+            const keys = Object.keys(item).slice(0, 4);
+            return keys.map(key => {
+                let value = item[key];
+                if (typeof value === 'object') {
+                    value = Array.isArray(value) ? value.join(', ') : JSON.stringify(value);
+                }
+                if (typeof value === 'string' && value.length > 50) {
+                    value = value.substring(0, 50) + '...';
+                }
+                return `<strong>${key}:</strong> ${value}`;
+            }).join('<br>');
+        }
+        
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchBox = document.getElementById('search-items');
+            if (searchBox) {
+                searchBox.addEventListener('input', filterItems);
+            }
+        });
+        
+        function filterItems() {
+            const query = document.getElementById('search-items').value.toLowerCase();
+            
+            if (!currentCollection) {
+                filteredData = [];
+                renderItems();
+                return;
+            }
+            
+            if (!query) {
+                filteredData = CollectionsManager.getCollection(currentCollection.name);
+            } else {
+                filteredData = CollectionsManager.searchItems(currentCollection.name, query);
+            }
+            
+            renderItems();
+        }
+        
+        function closeModal() {
+            document.getElementById('collection-modal').style.display = 'none';
+            currentCollection = null;
+            currentData = [];
+            filteredData = [];
+        }
+        
+        function addNewItem() {
+            const name = prompt('ชื่อรายการใหม่:');
+            if (!name) return;
+            
+            const newItem = {
+                name: name,
+                description: 'New item created via Collections Manager'
+            };
+            
+            try {
+                CollectionsManager.createItem(currentCollection.name, newItem);
+                loadCollectionData();
+                updateCollectionStats();
+                showNotification(`เพิ่ม "${name}" สำเร็จ`, 'success');
+            } catch (error) {
+                showNotification('เกิดข้อผิดพลาด: ' + error.message, 'error');
+            }
+        }
+        
+        function editItem(index) {
+            const item = filteredData[index];
+            if (!item) return;
+            
+            const newName = prompt('แก้ไขชื่อ:', item.name);
+            if (newName === null) return;
+            
+            try {
+                const updatedItem = { ...item, name: newName };
+                CollectionsManager.updateItem(currentCollection.name, item.id, updatedItem);
+                loadCollectionData();
+                updateCollectionStats();
+                showNotification('แก้ไขสำเร็จ', 'success');
+            } catch (error) {
+                showNotification('เกิดข้อผิดพลาด: ' + error.message, 'error');
+            }
+        }
+        
+        function deleteItem(index) {
+            const item = filteredData[index];
+            if (!item) return;
+            
+            if (confirm(`คุณต้องการลบ "${item.name}" หรือไม่?`)) {
+                try {
+                    CollectionsManager.deleteItem(currentCollection.name, item.id);
+                    loadCollectionData();
+                    updateCollectionStats();
+                    showNotification('ลบรายการสำเร็จ', 'success');
+                } catch (error) {
+                    showNotification('เกิดข้อผิดพลาด: ' + error.message, 'error');
+                }
+            }
+        }
+        
+        function updateCollectionStats() {
+            // Update collection stats in the main view
+            const stats = CollectionsManager.getCollectionStats(currentCollection.name);
+            currentCollection.count = stats.count;
+            currentCollection.size = stats.size;
+            
+            // Re-render if needed
+            if (document.getElementById('collection-modal').style.display === 'none') {
+                renderCollections();
+            }
+        }
+        
+        function exportCollection(collectionName = null) {
+            const collection = collectionName ? 
+                collections.find(c => c.name === collectionName) : currentCollection;
+            
+            if (!collection) {
+                showNotification('ไม่มีข้อมูลให้ export', 'error');
+                return;
+            }
+            
+            try {
+                const exportData = CollectionsManager.exportCollection(collection.name);
+                showNotification(`Export ${collection.displayName} สำเร็จ (${exportData.count} รายการ)`, 'success');
+            } catch (error) {
+                showNotification('เกิดข้อผิดพลาดในการ export: ' + error.message, 'error');
+            }
+        }
+        
+        function importCollection() {
+            document.getElementById('file-input').click();
+        }
+        
+        async function handleFileImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!currentCollection) {
+                showNotification('กรุณาเลือก collection ก่อน', 'error');
+                return;
+            }
+            
+            try {
+                const result = await CollectionsManager.importCollection(currentCollection.name, file);
+                loadCollectionData();
+                updateCollectionStats();
+                showNotification(`Import สำเร็จ! นำเข้า ${result.imported} รายการ`, 'success');
+            } catch (error) {
+                showNotification('Import ล้มเหลว: ' + error.message, 'error');
+            }
+            
+            // Reset file input
+            event.target.value = '';
+        }
+        
+        function viewCollection(collectionName) {
+            openCollection(collectionName);
+        }
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            // Hide and remove notification
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+        
+        function formatBytes(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('collection-modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
